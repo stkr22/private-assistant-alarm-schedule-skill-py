@@ -1,5 +1,7 @@
 from datetime import datetime
 
+SINGLE_DIGIT_MINUTE_THRESHOLD = 10
+
 
 def format_time_for_tts(time: datetime, with_date: bool = False) -> str:
     hour = time.hour
@@ -7,7 +9,7 @@ def format_time_for_tts(time: datetime, with_date: bool = False) -> str:
 
     if minute == 0:
         time_str = f"{hour} o'clock"
-    elif minute < 10:
+    elif minute < SINGLE_DIGIT_MINUTE_THRESHOLD:
         time_str = f"{minute} past {hour}"
     else:
         time_str = f"{minute} past {hour}"

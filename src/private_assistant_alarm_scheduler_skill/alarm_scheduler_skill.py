@@ -27,12 +27,12 @@ class Parameters(BaseModel):
 
 
 class Action(enum.Enum):
-    HELP = ["help"]
-    SET = ["set"]
-    SKIP = ["skip"]
-    BREAK = ["break"]
-    CONTINUE = ["continue"]
-    GET_ACTIVE = ["current"]
+    HELP = ("help",)
+    SET = ("set",)
+    SKIP = ("skip",)
+    BREAK = ("break",)
+    CONTINUE = ("continue",)
+    GET_ACTIVE = ("current",)
 
     @classmethod
     def find_matching_action(cls, text: str) -> Self | None:
@@ -46,7 +46,7 @@ class Action(enum.Enum):
 
 
 class AlarmSchedulerSkill(BaseSkill):
-    def __init__(
+    def __init__(  # noqa: PLR0913
         self,
         config_obj: config.SkillConfig,
         mqtt_client: aiomqtt.Client,
@@ -99,7 +99,7 @@ class AlarmSchedulerSkill(BaseSkill):
             parameters.alarm_name = "User Alarm"
             parameters.alarm_time = datetime.now().replace(hour=6, minute=0, second=0, microsecond=0)
             for result in intent_analysis_result.numbers:
-                if result.next_token == "o'clock" or result.next_token == "hours":
+                if result.next_token in ("o'clock", "hours"):
                     parameters.alarm_time = parameters.alarm_time.replace(hour=result.number_token)
                 elif result.next_token == "minutes":
                     parameters.alarm_time = parameters.alarm_time.replace(minute=result.number_token)
